@@ -107,6 +107,8 @@ struct HUDView: View {
                     .font(.system(size: 18, weight: .black, design: .rounded))
                     .foregroundStyle(theme.inkColor)
                     .monospacedDigit()
+                    .contentTransition(.numericText(value: Double(hud.levelDeaths)))
+                    .animation(.spring(duration: 0.3), value: hud.levelDeaths)
                     .accessibilityLabel("\(hud.levelDeaths) deaths")
             }
             .padding(.horizontal, 12)
