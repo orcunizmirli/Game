@@ -23,6 +23,7 @@ final class AppModel: ObservableObject {
     private(set) var demoMode = false
 
     init() {
+        _ = SoundEngine.shared // synthesize sounds up front, not on the first jump
         progress = ProgressStore()
         do {
             catalog = try Self.makeCatalog()

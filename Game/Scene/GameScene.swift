@@ -62,12 +62,10 @@ final class GameScene: SKScene {
     }
     #endif
 
-    /// Freezes gameplay (rendering continues so the pause menu can sit on top).
+    /// Freezes gameplay (rendering continues so the pause menu can sit on top). Touches held
+    /// through a pause keep working afterwards; new touches are ignored while paused.
     var isGameplayPaused = false {
-        didSet {
-            lastUpdateTime = nil
-            input.reset()
-        }
+        didSet { lastUpdateTime = nil }
     }
 
     init(session: GameSession) {
@@ -157,11 +155,13 @@ final class GameScene: SKScene {
             rebuildWorld()
         } else if let worldNode {
             // Tiles removed by a collapse fall away as debris; other removals just vanish.
-            var crumbled = Set<GridPoint>()
+            var crumbled = Set<GridPoint>(), settled = Set<GridPoint>()
             for event in events {
                 if case .world(.tilesRemoved(let points)) = event { crumbled.formUnion(points) }
+                if case .world(.blockSettled(_, let point)) = event { settled.insert(point) }
             }
-            worldNode.sync(with: session.simulation, dt: CGFloat(dt), crumbled: crumbled, debrisLayer: effectsLayer)
+            worldNode.sync(with: session.simulation, dt: CGFloat(dt), crumbled: crumbled,
+                           settled: settled, debrisLayer: effectsLayer)
             react(to: events)
         }
         worldNode?.syncGhost(session.ghost, dt: CGFloat(dt))
@@ -257,7 +257,7 @@ final class GameScene: SKScene {
         hud.visitDeaths = session.deathsThisVisit
         hud.controlsInverted = session.world.controlsInverted
         hud.finished = session.phase == .finished
-        hud.hintAvailable = session.deathsThisVisit >= Self.hintThreshold && session.hintReplay != nil
+        hud.hintAvailable = session.levelDeaths >= Self.hintThreshold && session.hintReplay != nil
         hud.ghostVisible = session.isGhostVisible
         guard hud != lastHUD else { return }
         lastHUD = hud
@@ -290,6 +290,7 @@ final class GameScene: SKScene {
     }
 
     private func handle(commands: InputRouter.Commands) {
+        guard session.phase != .finished else { return } // the end screen owns input
         if commands.contains(.pause) { gameDelegate?.gameSceneRequestedPause(self) }
         guard !isGameplayPaused else { return }
         if commands.contains(.restart) { restartLevel() }

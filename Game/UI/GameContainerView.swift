@@ -89,6 +89,7 @@ struct HUDView: View {
                     .font(.system(size: 16, weight: .heavy, design: .rounded))
                     .foregroundStyle(theme.inkColor)
                     .lineLimit(1)
+                    .allowsHitTesting(false)
                 Spacer()
                 if model.showsHintButton {
                     Button {
@@ -109,6 +110,7 @@ struct HUDView: View {
                     .monospacedDigit()
                     .contentTransition(.numericText(value: Double(hud.levelDeaths)))
                     .animation(.spring(duration: 0.3), value: hud.levelDeaths)
+                    .allowsHitTesting(false)
                     .accessibilityLabel("\(hud.levelDeaths) deaths")
             }
             .padding(.horizontal, 12)
@@ -122,6 +124,7 @@ struct HUDView: View {
                     .padding(.vertical, 6)
                     .background(Capsule().fill(theme.accentColor))
                     .transition(.scale.combined(with: .opacity))
+                    .allowsHitTesting(false)
             }
             Spacer()
         }

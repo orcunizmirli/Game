@@ -117,7 +117,7 @@ final class WorldNode: SKNode {
 
     /// Diffs the grid against the drawn tiles. Removed tiles listed in `crumbled` fall away
     /// as debris; others (tiles that turned into moving blocks) just disappear.
-    private func syncTiles(_ grid: TileGrid, crumbled: Set<GridPoint>, debrisLayer: SKNode?) {
+    private func syncTiles(_ grid: TileGrid, crumbled: Set<GridPoint>, settled: Set<GridPoint>, debrisLayer: SKNode?) {
         guard grid.revision != gridRevision else { return }
         gridRevision = grid.revision
         for p in grid.points {
@@ -132,16 +132,18 @@ final class WorldNode: SKNode {
                 tileNodes[p] = nil
             }
             if kind != .empty {
-                addTile(kind, at: p, animated: true)
+                // A block that just landed keeps its look; only new tiles pop in.
+                addTile(kind, at: p, animated: !settled.contains(p))
             }
         }
     }
 
     // MARK: Frame sync
 
-    func sync(with simulation: Simulation, dt: CGFloat, crumbled: Set<GridPoint> = [], debrisLayer: SKNode? = nil) {
+    func sync(with simulation: Simulation, dt: CGFloat, crumbled: Set<GridPoint> = [],
+              settled: Set<GridPoint> = [], debrisLayer: SKNode? = nil) {
         let world = simulation.world
-        syncTiles(world.grid, crumbled: crumbled, debrisLayer: debrisLayer)
+        syncTiles(world.grid, crumbled: crumbled, settled: settled, debrisLayer: debrisLayer)
 
         // Moving blocks.
         var alive = Set<Int>()
@@ -179,7 +181,8 @@ final class WorldNode: SKNode {
         }
         if self.ghost == nil {
             let node = PlayerNode(tile: tile, playerSize: ghost.player.size, theme: theme, ghost: true)
-            node.zPosition = 9
+            // Player children stack up to +3; keep the whole ghost below the player (10).
+            node.zPosition = 6
             addChild(node)
             self.ghost = node
         }
