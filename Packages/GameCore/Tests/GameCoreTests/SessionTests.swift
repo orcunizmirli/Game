@@ -212,3 +212,46 @@ final class SolverTests: XCTestCase {
         XCTAssertFalse(try LevelSolver(options: options).solve(level).solved)
     }
 }
+
+final class GhostTests: XCTestCase {
+    func testGhostReplaysSolutionInLockStep() throws {
+        let catalog = try LevelCatalog()
+        let session = try GameSession(catalog: catalog, progress: ProgressStore(store: InMemoryKeyValueStore()))
+        let replay = try XCTUnwrap(session.hintReplay)
+        session.showGhost(replay)
+        XCTAssertTrue(session.isGhostVisible)
+        for _ in 0..<replay.totalSteps { session.step(.none) }
+        XCTAssertEqual(session.ghost?.status, .won, "the ghost finishes while the player idles")
+        XCTAssertEqual(session.phase, .playing)
+
+        // Restarting restarts the ghost too.
+        session.restart()
+        XCTAssertEqual(session.ghost?.stepCount, 0)
+        session.hideGhost()
+        XCTAssertNil(session.ghost)
+    }
+}
+
+final class EndToEndTests: XCTestCase {
+    /// Plays the whole shipped game through `GameSession` (level transitions, progress,
+    /// timers) using the recorded solutions, at a jittery 60 Hz frame rate.
+    func testAutopilotFinishesTheWholeGame() throws {
+        let catalog = try LevelCatalog()
+        let progress = ProgressStore(store: InMemoryKeyValueStore())
+        let session = try GameSession(catalog: catalog, progress: progress)
+        session.autopilot = true
+        var frames = 0
+        var completed: [Int] = []
+        while session.phase != .finished && frames < 60 * 60 * 10 {
+            let dt = frames.isMultiple(of: 3) ? 1.0 / 50.0 : 1.0 / 65.0
+            for event in session.update(frameDelta: dt, input: .none) {
+                if case .levelCompleted(let index, _, _) = event { completed.append(index) }
+            }
+            frames += 1
+        }
+        XCTAssertEqual(session.phase, .finished)
+        XCTAssertEqual(completed, Array(0..<catalog.count))
+        XCTAssertEqual(progress.totalDeaths, 0, "the recorded solutions never die")
+        XCTAssertEqual(progress.unlockedCount, catalog.count)
+    }
+}

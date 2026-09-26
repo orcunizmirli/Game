@@ -26,6 +26,18 @@ public final class GameSession {
     /// rebuild their node tree.
     public private(set) var generation = 0
 
+    /// Optional "ghost" replaying the level's recorded solution in lock-step with the player.
+    public private(set) var ghost: Simulation?
+    private var ghostReplay: InputReplay?
+    private var ghostCursor: ReplayCursor?
+
+    /// Demo mode: when true, every attempt is played by the level's recorded solution
+    /// instead of the player's input.
+    public var autopilot = false {
+        didSet { resetAutopilot() }
+    }
+    private var autopilotCursor: ReplayCursor?
+
     private var timestep = FixedTimestep()
     private var latch = InputLatch()
 
@@ -65,6 +77,12 @@ public final class GameSession {
         let dt = Constants.fixedDt
         switch phase {
         case .playing:
+            stepGhost(dt: dt)
+            var input = input
+            if autopilot, var cursor = autopilotCursor {
+                input = cursor.next()
+                autopilotCursor = cursor
+            }
             var events = simulation.step(input, dt: dt)
             switch simulation.status {
             case .running:
@@ -107,6 +125,42 @@ public final class GameSession {
         }
     }
 
+    // MARK: Ghost hint
+
+    /// Recorded solution for the current level, if the level ships one.
+    public var hintReplay: InputReplay? { catalog.solution(for: level.id) }
+
+    public var isGhostVisible: Bool { ghostReplay != nil }
+
+    /// Shows a translucent ghost that plays `replay` from the start of every attempt.
+    public func showGhost(_ replay: InputReplay) {
+        ghostReplay = replay
+        resetGhost()
+    }
+
+    public func hideGhost() {
+        ghostReplay = nil
+        ghostCursor = nil
+        ghost = nil
+    }
+
+    private func resetAutopilot() {
+        autopilotCursor = autopilot ? hintReplay.map(ReplayCursor.init) : nil
+    }
+
+    private func resetGhost() {
+        guard let replay = ghostReplay else { return }
+        ghost = try? Simulation(level: level, tuning: tuning)
+        ghostCursor = ReplayCursor(replay)
+    }
+
+    private func stepGhost(dt: Double) {
+        guard var g = ghost, var cursor = ghostCursor, g.isRunning, !cursor.isFinished else { return }
+        g.step(cursor.next(), dt: dt)
+        ghost = g
+        ghostCursor = cursor
+    }
+
     /// Restarts the current level without counting a death.
     public func restart() {
         rebuild()
@@ -118,6 +172,7 @@ public final class GameSession {
         simulation = try Simulation(level: level, tuning: tuning)
         levelIndex = index
         deathsThisVisit = 0
+        hideGhost()
         resetRuntimeState()
     }
 
@@ -139,5 +194,7 @@ public final class GameSession {
         phase = .playing
         generation += 1
         latch.reset()
+        resetGhost()
+        resetAutopilot()
     }
 }
