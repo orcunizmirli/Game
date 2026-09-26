@@ -66,12 +66,13 @@ struct LevelSelectView: View {
                 RoundedRectangle(cornerRadius: 14, style: .continuous)
                     .fill(unlocked ? theme.inkColor : theme.inkColor.opacity(0.1))
             )
-            .overlay(alignment: .bottom) {
+            .overlay(alignment: .topTrailing) {
                 if unlocked && record.deaths > 0 {
-                    Text("☠︎ \(record.deaths)")
-                        .font(.system(size: 10, weight: .bold, design: .rounded))
+                    Text(verbatim: "☠︎\(record.deaths)")
+                        .font(.system(size: 9, weight: .bold, design: .rounded))
                         .foregroundStyle(theme.backgroundColor.opacity(0.7))
-                        .padding(.bottom, 4)
+                        .padding(.top, 4)
+                        .padding(.trailing, 6)
                 }
             }
         }
