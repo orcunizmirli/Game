@@ -1,0 +1,13 @@
+# macOS / Xcode
+.DS_Store
+xcuserdata/
+*.xcuserstate
+DerivedData/
+*.xcscmblueprint
+build/
+
+# SwiftPM
+.build/
+.swiftpm/
+Packages/GameCore/.swiftpm/
+Package.resolved
