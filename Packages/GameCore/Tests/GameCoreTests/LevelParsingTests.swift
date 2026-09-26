@@ -143,6 +143,13 @@ final class BundledLevelTests: XCTestCase {
         XCTAssertEqual(Set(ids).count, ids.count, "level ids are unique")
     }
 
+    func testLevelIDsMatchFileNames() throws {
+        let catalog = try LevelCatalog()
+        for (index, url) in catalog.files.enumerated() {
+            XCTAssertEqual(try catalog.level(at: index).id, url.deletingPathExtension().lastPathComponent)
+        }
+    }
+
     func testEveryLevelValidatesWithoutWarnings() throws {
         for level in try LevelCatalog().allLevels() {
             XCTAssertEqual(WorldBuilder.validate(level), [], level.id)

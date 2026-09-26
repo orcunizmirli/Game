@@ -45,7 +45,11 @@ struct LevelSelectView: View {
                 if unlocked {
                     Text("\(index + 1)")
                         .font(.system(size: 26, weight: .black, design: .rounded))
-                    if record.isCompleted {
+                    if record.isCompleted, let best = record.bestTime {
+                        Text(verbatim: formatTime(best))
+                            .font(.system(size: 11, weight: .heavy, design: .rounded))
+                            .monospacedDigit()
+                    } else if record.isCompleted {
                         Image(systemName: "checkmark")
                             .font(.system(size: 11, weight: .black))
                     } else {
