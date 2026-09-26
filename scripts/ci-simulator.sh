@@ -39,7 +39,9 @@ shot() {
 
 # Fails the job if the app is no longer running (i.e. it crashed).
 alive() {
-  if ! xcrun simctl spawn "$UDID" launchctl list | grep -q "$BUNDLE_ID"; then
+  local services
+  services=$(xcrun simctl spawn "$UDID" launchctl list)
+  if ! grep -q "$BUNDLE_ID" <<<"$services"; then
     echo "::error::app is not running after $1 (crash?)"
     ls -t ~/Library/Logs/DiagnosticReports 2>/dev/null | head -5
     latest=$(ls -t ~/Library/Logs/DiagnosticReports/*.ips 2>/dev/null | head -1)
