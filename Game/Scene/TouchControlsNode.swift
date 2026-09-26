@@ -17,8 +17,8 @@ final class TouchControlsNode: SKNode {
         position = origin
 
         let d = CGFloat(layout.buttonRadius * 2)
-        let fill = theme.ink.withAlphaComponent(0.22)
-        let glyph = theme.ink.withAlphaComponent(0.8)
+        let fill = theme.ink.withAlphaComponent(0.3)
+        let glyph = theme.background.withAlphaComponent(0.95)
         let specs: [(TouchLayout.Zone, String, Vec2, CGFloat)] = [
             (.left, "arrowtriangle.left.fill", layout.leftButtonCenter, d),
             (.right, "arrowtriangle.right.fill", layout.rightButtonCenter, d),

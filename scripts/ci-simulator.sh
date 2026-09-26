@@ -58,9 +58,9 @@ alive menu
 LEVELS=$(ls Packages/GameCore/Sources/GameCore/Levels/level_*.json | wc -l | tr -d ' ')
 for level in $(seq 1 "$LEVELS"); do
   xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" -demoLevel "$level"
-  sleep 3.2
+  # Taking a screenshot itself takes a few seconds, so shoot almost immediately.
+  sleep 0.3
   shot "level_$(printf %02d "$level")_a"
-  sleep 1.6
   shot "level_$(printf %02d "$level")_b"
   alive "level $level"
 done
