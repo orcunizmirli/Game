@@ -73,10 +73,14 @@ enum TextureFactory {
     }
 
     /// Round control button with an SF Symbol glyph.
-    static func button(diameter: CGFloat, symbol: String, fill: UIColor, glyph: UIColor) -> SKTexture {
+    static func button(diameter: CGFloat, symbol: String, fill: UIColor, ring: UIColor, glyph: UIColor) -> SKTexture {
         render(CGSize(width: diameter, height: diameter)) { ctx in
             ctx.setFillColor(fill.cgColor)
             ctx.fillEllipse(in: CGRect(x: 0, y: 0, width: diameter, height: diameter))
+            let lineWidth = max(2, diameter * 0.05)
+            ctx.setStrokeColor(ring.cgColor)
+            ctx.setLineWidth(lineWidth)
+            ctx.strokeEllipse(in: CGRect(x: 0, y: 0, width: diameter, height: diameter).insetBy(dx: lineWidth / 2, dy: lineWidth / 2))
             let config = UIImage.SymbolConfiguration(pointSize: diameter * 0.4, weight: .black)
             if let image = UIImage(systemName: symbol, withConfiguration: config)?
                 .withTintColor(glyph, renderingMode: .alwaysOriginal) {

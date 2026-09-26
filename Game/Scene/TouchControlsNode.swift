@@ -17,7 +17,9 @@ final class TouchControlsNode: SKNode {
         position = origin
 
         let d = CGFloat(layout.buttonRadius * 2)
-        let fill = theme.ink.withAlphaComponent(0.3)
+        // Readable both over the dark floor and over the light background.
+        let fill = theme.ink.withAlphaComponent(0.35)
+        let ring = theme.background.withAlphaComponent(0.55)
         let glyph = theme.background.withAlphaComponent(0.95)
         let specs: [(TouchLayout.Zone, String, Vec2, CGFloat)] = [
             (.left, "arrowtriangle.left.fill", layout.leftButtonCenter, d),
@@ -25,7 +27,7 @@ final class TouchControlsNode: SKNode {
             (.jump, "arrowtriangle.up.fill", layout.jumpButtonCenter, d * 1.2),
         ]
         for (zone, symbol, center, diameter) in specs {
-            let node = SKSpriteNode(texture: TextureFactory.button(diameter: diameter, symbol: symbol, fill: fill, glyph: glyph))
+            let node = SKSpriteNode(texture: TextureFactory.button(diameter: diameter, symbol: symbol, fill: fill, ring: ring, glyph: glyph))
             node.position = CGPoint(x: center.x, y: center.y)
             node.alpha = 0.75
             addChild(node)
