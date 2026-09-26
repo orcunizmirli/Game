@@ -37,9 +37,21 @@ shot() {
   echo "captured $1"
 }
 
+# Fails the job if the app is no longer running (i.e. it crashed).
+alive() {
+  if ! xcrun simctl spawn "$UDID" launchctl list | grep -q "$BUNDLE_ID"; then
+    echo "::error::app is not running after $1 (crash?)"
+    ls -t ~/Library/Logs/DiagnosticReports 2>/dev/null | head -5
+    latest=$(ls -t ~/Library/Logs/DiagnosticReports/*.ips 2>/dev/null | head -1)
+    [ -n "$latest" ] && head -80 "$latest"
+    exit 1
+  fi
+}
+
 xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID"
 sleep 5
 shot menu
+alive menu
 
 LEVELS=$(ls Packages/GameCore/Sources/GameCore/Levels/level_*.json | wc -l | tr -d ' ')
 for level in $(seq 1 "$LEVELS"); do
@@ -48,8 +60,15 @@ for level in $(seq 1 "$LEVELS"); do
   shot "level_$(printf %02d "$level")_a"
   sleep 1.6
   shot "level_$(printf %02d "$level")_b"
+  alive "level $level"
 done
 
 xcrun simctl launch --terminate-running-process "$UDID" "$BUNDLE_ID" -demoLevel 1 -debugOverlay YES
 sleep 3
 shot debug_overlay
+
+alive debug_overlay
+
+# Text previews of the screenshots for environments that cannot download artifacts.
+python3 -m pip install --quiet --break-system-packages pillow 2>/dev/null || python3 -m pip install --quiet pillow
+python3 scripts/screenshot_ascii.py screenshots/*.png

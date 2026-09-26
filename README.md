@@ -59,7 +59,7 @@ Packages/GameCore/        Platformdan bağımsız oyun mantığı (Linux'ta da d
     Input/                TouchLayout / TouchTracker (dokunma alanı mantığı)
     Levels/               level_001.json … level_010.json, solutions/
   Sources/levelcheck/     Bölüm doğrulama / çözme / oynatma aracı
-  Tests/GameCoreTests/    91 birim ve uçtan uca test
+  Tests/GameCoreTests/    90+ birim ve uçtan uca test
 ```
 
 Oyun mantığının tamamı `GameCore` paketinde, SpriteKit'e hiç bağımlı değil. `Simulation` bir değer
