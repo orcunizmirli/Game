@@ -139,6 +139,7 @@ final class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         let dt = lastUpdateTime.map { min(currentTime - $0, 0.25) } ?? 0
         lastUpdateTime = currentTime
+        relayoutIfNeeded(force: false) // safe-area insets can change without a size change
 
         handle(commands: input.pollCommands())
 

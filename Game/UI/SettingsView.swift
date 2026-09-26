@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var app: AppModel
+    @AppStorage(SettingsKeys.sound) private var sound = true
     @AppStorage(SettingsKeys.haptics) private var haptics = true
     @AppStorage(SettingsKeys.hints) private var hints = true
     @State private var confirmReset = false
@@ -22,6 +23,7 @@ struct SettingsView: View {
                 }
 
                 VStack(spacing: 10) {
+                    Toggle("Sound effects", isOn: $sound)
                     Toggle("Haptics", isOn: $haptics)
                     Toggle("Offer a ghost hint after \(GameScene.hintThreshold) deaths", isOn: $hints)
                 }

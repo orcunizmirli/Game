@@ -94,7 +94,7 @@ struct HUDView: View {
                     Button {
                         model.toggleGhost()
                     } label: {
-                        Label(hud.ghostVisible ? "Hide hint" : "Hint", systemImage: "lightbulb.fill")
+                        Label(hud.ghostVisible ? LocalizedStringKey("Hide hint") : LocalizedStringKey("Hint"), systemImage: "lightbulb.fill")
                             .font(.system(size: 14, weight: .heavy, design: .rounded))
                             .foregroundStyle(theme.backgroundColor)
                             .padding(.horizontal, 12)

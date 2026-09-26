@@ -16,7 +16,7 @@ struct MainMenuView: View {
 
             HStack(spacing: 48) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("TRICK\nTILES")
+                    Text(verbatim: "TRICK\nTILES")
                         .font(.system(size: 64, weight: .black, design: .rounded))
                         .foregroundStyle(theme.inkColor)
                         .lineSpacing(-12)
@@ -29,7 +29,7 @@ struct MainMenuView: View {
 
                 VStack(spacing: 12) {
                     if app.levelCount > 0 {
-                        Button(app.hasStarted ? "Continue · \(app.continueLevel + 1)" : "Play") {
+                        Button(app.hasStarted ? LocalizedStringKey("Continue · \(app.continueLevel + 1)") : LocalizedStringKey("Play")) {
                             app.play(app.continueLevel)
                         }
                         .buttonStyle(ChunkyButtonStyle(theme: theme))

@@ -45,6 +45,7 @@ struct MascotView: View {
     var size: CGFloat = 64
     @State private var bounce = false
     @State private var blink = false
+    @State private var blinking = false
 
     var body: some View {
         ZStack {
@@ -63,8 +64,12 @@ struct MascotView: View {
             withAnimation(.easeInOut(duration: 0.45).repeatForever(autoreverses: true)) {
                 bounce = true
             }
-            blinkLoop()
+            if !blinking {
+                blinking = true
+                blinkLoop()
+            }
         }
+        .onDisappear { blinking = false }
     }
 
     private var eye: some View {
@@ -77,6 +82,7 @@ struct MascotView: View {
 
     private func blinkLoop() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 2...4)) {
+            guard blinking else { return }
             withAnimation(.easeInOut(duration: 0.08)) { blink = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
                 withAnimation(.easeInOut(duration: 0.08)) { blink = false }

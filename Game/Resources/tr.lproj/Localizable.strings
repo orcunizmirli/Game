@@ -1,0 +1,41 @@
+/* Turkish UI strings. Keys are the English source strings. */
+
+/* Main menu */
+"trust nothing. especially the floor." = "hiçbir şeye güvenme. özellikle zemine.";
+"Play" = "Oyna";
+"Continue · %lld" = "Devam · %lld";
+"Levels" = "Bölümler";
+"Settings" = "Ayarlar";
+"No levels found" = "Bölüm bulunamadı";
+
+/* Level select */
+"Level %lld, %@" = "Bölüm %lld, %@";
+"Level %lld, locked" = "Bölüm %lld, kilitli";
+
+/* Settings */
+"Sound effects" = "Ses efektleri";
+"Haptics" = "Titreşim";
+"Offer a ghost hint after %lld deaths" = "%lld ölümden sonra hayalet ipucu öner";
+"Reset progress" = "İlerlemeyi sıfırla";
+"Unlock all" = "Hepsini aç";
+"Controls: left half of the screen moves, right half jumps. Hold jump to jump higher. Gamepads and keyboards (arrows / WASD + space, R restart, Esc pause) work too." = "Kontroller: ekranın sol yarısı hareket ettirir, sağ yarısı zıplatır. Daha yükseğe zıplamak için basılı tut. Gamepad ve klavye de çalışır (oklar / WASD + boşluk, R yeniden başlat, Esc duraklat).";
+"Reset all progress?" = "Tüm ilerleme sıfırlansın mı?";
+"Reset" = "Sıfırla";
+"Cancel" = "Vazgeç";
+"Unlocked levels, deaths and best times will be erased." = "Açılan bölümler, ölümler ve en iyi süreler silinecek.";
+
+/* Game */
+"Couldn't start the game" = "Oyun başlatılamadı";
+"Back" = "Geri";
+"Pause" = "Duraklat";
+"Reload levels from disk" = "Bölümleri diskten yeniden yükle";
+"Hint" = "İpucu";
+"Hide hint" = "İpucunu gizle";
+"%lld deaths" = "%lld ölüm";
+"CONTROLS INVERTED" = "KONTROLLER TERS";
+"Paused" = "Duraklatıldı";
+"Resume" = "Devam et";
+"Restart level" = "Bölümü yeniden başlat";
+"Menu" = "Menü";
+"You made it out!" = "Kurtuldun!";
+"Every trap survived. Total deaths: %lld" = "Bütün tuzaklardan sağ çıktın. Toplam ölüm: %lld";

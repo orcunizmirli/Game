@@ -73,6 +73,6 @@ struct LevelSelectView: View {
         }
         .buttonStyle(.plain)
         .disabled(!unlocked)
-        .accessibilityLabel(unlocked ? "Level \(index + 1), \(app.levelName(index))" : "Level \(index + 1), locked")
+        .accessibilityLabel(unlocked ? Text("Level \(index + 1), \(app.levelName(index))") : Text("Level \(index + 1), locked"))
     }
 }

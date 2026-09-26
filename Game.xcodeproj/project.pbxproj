@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022A2BAC94608A671B349CFD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41675914CBFCD115991FCBDF /* Localizable.strings */; };
 		05F05BFC07C7EEA9E5DE3CE5 /* GameContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CD030DA92B6A12BA373058 /* GameContainerView.swift */; };
 		18DB31963FFC51DA05B277D9 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269C52DF4AAA05662C422F1D /* MainMenuView.swift */; };
 		21B8D91E7FF994F814EC20DE /* PlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7843F9AB32D757070C821A51 /* PlayerNode.swift */; };
@@ -16,6 +17,7 @@
 		623188FFC878DE0941F72EF3 /* InputRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEAC9800D4A3F6D3CD353FC /* InputRouter.swift */; };
 		6A597536BEAFD13086349B69 /* DebugOverlayNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8D30FDDC7CA1FE2EB274 /* DebugOverlayNode.swift */; };
 		8600A161A67CAD53741B88C2 /* WorldNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1AF694556938E612AAFFB4 /* WorldNode.swift */; };
+		8CE3FFB62C065E4BB5FA1AE7 /* SoundEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAA04B955E0C92B8E8755B9 /* SoundEngine.swift */; };
 		919E2C09CAA8C170387B12CB /* TouchControlsNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7FA8B4A68EB3AA1BDA3F7 /* TouchControlsNode.swift */; };
 		B732160B66B139F34B416C2B /* TextureFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E0826F70F05A43B54DC8BA /* TextureFactory.swift */; };
 		B90D1083EC9C900E6555E537 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B16BC868886B14CFD2528CD8 /* Assets.xcassets */; };
@@ -36,6 +38,7 @@
 		23344F39EEB2998F7762ACC4 /* GameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameApp.swift; sourceTree = "<group>"; };
 		269C52DF4AAA05662C422F1D /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		31EBEC245C234046115274B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		41675914CBFCD115991FCBDF /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68A516CCE60DB74EF61DC0FE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6CBECA5573FF801706B7DDD3 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		70E0826F70F05A43B54DC8BA /* TextureFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureFactory.swift; sourceTree = "<group>"; };
@@ -43,6 +46,7 @@
 		7F4281A03B8BC4167771C58D /* GameCore */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GameCore; path = Packages/GameCore; sourceTree = SOURCE_ROOT; };
 		8FEAC9800D4A3F6D3CD353FC /* InputRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputRouter.swift; sourceTree = "<group>"; };
 		90B38F7CBEC31E5BF30CBE4E /* Effects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Effects.swift; sourceTree = "<group>"; };
+		9EAA04B955E0C92B8E8755B9 /* SoundEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEngine.swift; sourceTree = "<group>"; };
 		B16BC868886B14CFD2528CD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1870F72AABAEF3F8429EB2E /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		B99F9E3039671520E701FB92 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				B16BC868886B14CFD2528CD8 /* Assets.xcassets */,
+				41675914CBFCD115991FCBDF /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -138,6 +143,7 @@
 				6CBECA5573FF801706B7DDD3 /* GameScene.swift */,
 				B99F9E3039671520E701FB92 /* Palette.swift */,
 				7843F9AB32D757070C821A51 /* PlayerNode.swift */,
+				9EAA04B955E0C92B8E8755B9 /* SoundEngine.swift */,
 				70E0826F70F05A43B54DC8BA /* TextureFactory.swift */,
 				EFC7FA8B4A68EB3AA1BDA3F7 /* TouchControlsNode.swift */,
 				1D1AF694556938E612AAFFB4 /* WorldNode.swift */,
@@ -210,6 +216,7 @@
 			knownRegions = (
 				Base,
 				en,
+				tr,
 			);
 			mainGroup = FFB3AEB8AA693BD6BF292FF3;
 			packageReferences = (
@@ -229,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B90D1083EC9C900E6555E537 /* Assets.xcassets in Resources */,
+				022A2BAC94608A671B349CFD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +262,7 @@
 				21B8D91E7FF994F814EC20DE /* PlayerNode.swift in Sources */,
 				E1B52A724F3802F6BFACE33E /* RootView.swift in Sources */,
 				E432693F7F5099BF6ED66F31 /* SettingsView.swift in Sources */,
+				8CE3FFB62C065E4BB5FA1AE7 /* SoundEngine.swift in Sources */,
 				B732160B66B139F34B416C2B /* TextureFactory.swift in Sources */,
 				919E2C09CAA8C170387B12CB /* TouchControlsNode.swift in Sources */,
 				8600A161A67CAD53741B88C2 /* WorldNode.swift in Sources */,

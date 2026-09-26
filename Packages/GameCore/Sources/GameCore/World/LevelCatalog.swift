@@ -15,6 +15,7 @@ public final class LevelCatalog {
     public let source: Source
     public private(set) var files: [URL] = []
     private var cache: [Int: Level] = [:]
+    private var solutionCache: [String: InputReplay?] = [:]
 
     public init(source: Source = .bundled) throws {
         self.source = source
@@ -47,6 +48,7 @@ public final class LevelCatalog {
     /// Drops the cache and rescans the directory (debug hot reload).
     public func reload() throws {
         cache.removeAll()
+        solutionCache.removeAll()
         try rescan()
     }
 
@@ -85,11 +87,15 @@ public final class LevelCatalog {
         try JSONDecoder().decode(Level.self, from: data)
     }
 
-    /// Stored solution for a level, if one exists (`Levels/solutions/<id>.txt`).
+    /// Stored solution for a level, if one exists (`Levels/solutions/<id>.txt`). Cached.
     public func solution(for levelID: String) -> InputReplay? {
-        guard let dir = directory else { return nil }
-        let url = dir.appendingPathComponent("solutions/\(levelID).txt")
-        guard let text = try? String(contentsOf: url, encoding: .utf8) else { return nil }
-        return try? InputReplay(text.trimmingCharacters(in: .whitespacesAndNewlines))
+        if let cached = solutionCache[levelID] { return cached }
+        var replay: InputReplay?
+        if let dir = directory,
+           let text = try? String(contentsOf: dir.appendingPathComponent("solutions/\(levelID).txt"), encoding: .utf8) {
+            replay = try? InputReplay(text.trimmingCharacters(in: .whitespacesAndNewlines))
+        }
+        solutionCache[levelID] = replay
+        return replay
     }
 }

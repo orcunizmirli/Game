@@ -55,6 +55,10 @@ final class GameViewModel: ObservableObject {
         UserDefaults.standard.object(forKey: SettingsKeys.haptics) as? Bool ?? true
     }
 
+    private var soundEnabled: Bool {
+        UserDefaults.standard.object(forKey: SettingsKeys.sound) as? Bool ?? true
+    }
+
     private var hintsEnabled: Bool {
         UserDefaults.standard.object(forKey: SettingsKeys.hints) as? Bool ?? true
     }
@@ -113,11 +117,23 @@ extension GameViewModel: GameSceneDelegate {
     }
 
     func gameScene(_ scene: GameScene, didReceive events: [GameEvent]) {
+        let sound = SoundEngine.shared
+        sound.isEnabled = soundEnabled
         for event in events {
             switch event {
+            case .jumped:
+                sound.play(.jump)
+            case .landed:
+                sound.play(.land)
+            case .world(.tilesRemoved), .world(.blocksReleased), .world(.doorMoving):
+                sound.play(.trap)
+            case .world(.spikesSpawned), .world(.tilesAdded):
+                sound.play(.spikes)
             case .died:
+                sound.play(.death)
                 if hapticsEnabled { impact.impactOccurred() }
             case .reachedDoor:
+                sound.play(.door)
                 if hapticsEnabled { notification.notificationOccurred(.success) }
             case .levelStarted(let index):
                 showBanner(for: index)
@@ -136,6 +152,7 @@ extension GameViewModel: GameSceneDelegate {
 }
 
 enum SettingsKeys {
+    static let sound = "settings.sound"
     static let haptics = "settings.haptics"
     static let hints = "settings.hints"
 }
