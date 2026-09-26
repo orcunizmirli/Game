@@ -198,6 +198,22 @@ final class SolverTests: XCTestCase {
         XCTAssertEqual(try replay.play(on: level).status, .won)
     }
 
+    func testWaitsForTimedTraps() throws {
+        // The wall only opens after two seconds; the solver has to wait for it.
+        let level = makeLevel([
+            "##########",
+            "#.....#..#",
+            "#.....#..#",
+            "#S....#.D#",
+            "##########",
+        ], traps: [TrapDefinition(id: "open", trigger: .delay(2),
+                                  effect: .collapse(tiles: [GridPoint(6, 1), GridPoint(6, 2), GridPoint(6, 3)]))])
+        let replay = try XCTUnwrap(LevelSolver().solve(level).replay)
+        let sim = try replay.play(on: level)
+        XCTAssertEqual(sim.status, .won)
+        XCTAssertGreaterThan(sim.time, 2)
+    }
+
     func testReportsImpossibleLevels() throws {
         let level = makeLevel([
             "##########",

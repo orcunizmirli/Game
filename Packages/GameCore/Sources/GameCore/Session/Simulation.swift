@@ -91,26 +91,26 @@ public struct Simulation: Sendable {
     }
 
     /// Compact fingerprint of the dynamic state (for the solver's duplicate detection).
-    public func stateKey(positionResolution: Double = 16, includeTime: Bool) -> Int {
+    public func stateKey(positionResolution: Double = 16, velocityResolution: Double = 1, timeResolution: Double = 8, includeTime: Bool) -> Int {
         var h = Hasher()
         h.combine(Int((player.position.x * positionResolution).rounded()))
         h.combine(Int((player.position.y * positionResolution).rounded()))
-        h.combine(Int((player.velocity.x * 2).rounded()))
-        h.combine(Int((player.velocity.y).rounded()))
+        h.combine(Int((player.velocity.x * velocityResolution).rounded()))
+        h.combine(Int((player.velocity.y * velocityResolution / 2).rounded()))
         h.combine(player.isGrounded)
         h.combine(player.isJumpRising)
         h.combine(player.coyoteTimer > 0)
         for trap in traps { h.combine(trap.stateHash) }
-        h.combine(Int((world.door.position.x * 4).rounded()))
-        h.combine(Int((world.door.position.y * 4).rounded()))
+        h.combine(Int((world.door.position.x * 2).rounded()))
+        h.combine(Int((world.door.position.y * 2).rounded()))
         h.combine(world.grid.revision)
         h.combine(world.blocks.count)
         for b in world.blocks {
-            h.combine(Int((b.position.x * 8).rounded()))
-            h.combine(Int((b.position.y * 8).rounded()))
+            h.combine(Int((b.position.x * 2).rounded()))
+            h.combine(Int((b.position.y * 2).rounded()))
         }
         h.combine(world.controlsInverted)
-        if includeTime { h.combine(Int((world.time * 8).rounded())) }
+        if includeTime { h.combine(Int((world.time * timeResolution).rounded())) }
         return h.finalize()
     }
 }

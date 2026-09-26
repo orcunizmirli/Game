@@ -22,6 +22,8 @@ commands:
 options:
   --dir <path>        levels directory (default: the source tree)
   --max <n>           solver expansion limit
+  --pos <n>           solver position buckets per tile (default 8)
+  --weight <w>        solver heuristic weight (default 1.6)
 """
 
 var args = Array(CommandLine.arguments.dropFirst())
@@ -46,6 +48,8 @@ func flag(_ name: String) -> Bool {
 
 let dir = option("--dir").map { URL(fileURLWithPath: $0, isDirectory: true) } ?? LevelCatalog.sourceDirectory
 let maxExpansions = option("--max").flatMap(Int.init)
+let positionResolution = option("--pos").flatMap(Double.init)
+let heuristicWeight = option("--weight").flatMap(Double.init)
 let write = flag("--write")
 let trace = flag("--trace")
 let filter = Set(args)
@@ -83,6 +87,8 @@ case "validate":
 case "solve":
     var options = LevelSolver.Options()
     if let maxExpansions { options.maxExpansions = maxExpansions }
+    if let positionResolution { options.positionResolution = positionResolution }
+    if let heuristicWeight { options.heuristicWeight = heuristicWeight }
     let solver = LevelSolver(options: options)
     for level in loadLevels() {
         let started = Date()

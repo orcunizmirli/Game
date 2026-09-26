@@ -17,7 +17,7 @@ public struct TouchLayout: Equatable, Sendable {
     }
 
     /// Visual button radius.
-    public var buttonRadius: Double { min(46, max(30, height * 0.1)) }
+    public var buttonRadius: Double { min(40, max(28, height * 0.085)) }
     private var margin: Double { buttonRadius * 0.55 }
 
     public var leftButtonCenter: Vec2 { Vec2(margin + buttonRadius, margin + buttonRadius) }

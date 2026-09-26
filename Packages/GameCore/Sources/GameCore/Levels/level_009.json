@@ -1,0 +1,42 @@
+{
+  "id": "level_009",
+  "name": "Patience",
+  "tileSize": 32,
+  "theme": 2,
+  "grid": [
+    "############################",
+    "#.......##..##..##...#.....#",
+    "#.......##..##..##...#.....#",
+    "#....................#.....#",
+    "#....................#.....#",
+    "#....................#.....#",
+    "#....................#.....#",
+    "#....................#.....#",
+    "#....................#.....#",
+    "#....................#.....#",
+    "#..S.................#...D.#",
+    "############################",
+    "############################",
+    "############################"
+  ],
+  "traps": [
+    { "id": "hurry",
+      "trigger": {"type": "delay", "seconds": 1.5},
+      "effect": {"type": "collapse", "rect": [1, 0, 5, 3]} },
+    { "id": "drop1",
+      "trigger": {"type": "delay", "seconds": 2.5},
+      "effect": {"type": "dropCeiling", "rect": [8, 11, 2, 1], "speed": 10} },
+    { "id": "drop2",
+      "trigger": {"type": "delay", "seconds": 3.5},
+      "effect": {"type": "dropCeiling", "rect": [12, 11, 2, 1], "speed": 10} },
+    { "id": "drop3",
+      "trigger": {"type": "delay", "seconds": 4.5},
+      "effect": {"type": "dropCeiling", "rect": [16, 11, 2, 1], "speed": 10} },
+    { "id": "no_leaning",
+      "trigger": {"type": "delay", "seconds": 5.0},
+      "effect": {"type": "spawnSpikes", "at": [[19, 3], [20, 3]]} },
+    { "id": "open",
+      "trigger": {"type": "delay", "seconds": 6.0},
+      "effect": {"type": "slideTiles", "rect": [21, 3, 1, 10], "by": [0, -10], "speed": 5} }
+  ]
+}
